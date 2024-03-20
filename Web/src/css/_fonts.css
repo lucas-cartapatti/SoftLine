@@ -1,0 +1,16 @@
+:root{
+    --biggest : 30px;
+    --bigger : 26px;
+    --big : 22px;
+    --normal : 18px;
+    --small : 14px;
+    --smaller : 10px;
+    --smallest: 6px;
+
+    --arial : Arial, Helvetica, sans-serif;
+
+    --logo-big : 34px;
+    --logo-normal : 22px;
+    --logo-small : 18px;
+
+}

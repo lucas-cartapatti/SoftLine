@@ -1,0 +1,71 @@
+---
+export const partial = true;
+
+interface Props {
+    _name : string;
+    _id : string;
+    _value : boolean;    
+    _required : boolean;
+}
+
+const {_name, _id,_value,_required} = Astro.props;
+---
+
+<div class="toggle-main">
+    <input 
+        hidden 
+        type="checkbox"
+        id={_id}
+        checked={_value} 
+        name={_name} 
+        class="toggle"
+        required={_required} />
+
+    <span class="toggle-slide">
+        <span class="toggle-button"></span>
+    </span>
+</div>
+
+
+<style scoped>
+
+    .toggle-slide {
+        background-color: var(--darkgray);
+        border: 2px solid var(--gray);
+        border-radius: 32px;
+        width: 40px;
+        height: 20px;
+        display: flow;
+        padding: 2px;
+        cursor: pointer;
+        transition: ease-in-out 150ms;
+    }
+        .toggle:checked + .toggle-slide{
+            background-color: var(--lightgray);
+        }
+
+    .toggle-button{
+        background-color: var(--white);
+        display: block;
+        height: 20px;
+        width: 20px;
+        border-radius: 32px;
+        margin: 0;
+        padding: 0;
+        transition: ease-in-out 150ms;
+    }
+
+        .toggle:checked + .toggle-slide .toggle-button{
+            transform: translateX(20px);
+        }
+</style>
+
+<script>
+    const toggle = document.querySelector('span.toggle-slide');
+
+    toggle.addEventListener('click',(e)=>{
+        const check = toggle.previousElementSibling as HTMLInputElement;
+
+        check.checked = !check.checked;
+    });
+</script>

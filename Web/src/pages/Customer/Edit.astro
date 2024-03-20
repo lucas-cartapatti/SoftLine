@@ -1,0 +1,119 @@
+---
+import "@css/global.css";
+import "@css/main.css";
+
+import logo from "@assets/logo.png";
+import Header from "@components/cHeader.astro";
+import IconButton from "@components/cIconButton.astro";
+import Toggle from '@components/cToggle.astro';
+import Input from "@components/cInput.astro";
+import { CustomerModel } from "@models/CustomerModel";
+
+const url = "https://localhost:44314";
+
+const param = Astro.url.searchParams.get('id');
+
+let customer = new CustomerModel();
+
+if(Astro.request.method.toUpperCase() === "POST")
+{
+    const form = await Astro.request.formData();
+
+    customer = {
+        id : Number(form.get('Id')),
+        companyName : form.get('CompanyName') as string,
+        tradeName : form.get('TradeName') as string,
+        document : form.get('Document') as string,
+        location : form.get('Location') as string,
+        active : Boolean(form.get('Active'))
+    }
+
+    const response: any  = await fetch(`${url}/Customer/Update`,{
+        method : 'PUT',
+        headers : {"Content-type":"application/json; charset=UTF-8"},
+        body: JSON.stringify(customer)
+    }).then(x => x.json());
+
+    if(response == 200){
+        return Astro.redirect('/Customer/List');
+    }
+}
+else{
+    const response: CustomerModel = await fetch(`${url}/Customer/Get?id=${param}`).then((x) =>
+        x.json()
+    );
+
+    customer = response;
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href={logo.src} type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>SoftLine</title>
+    </head>
+    <body>
+        <Header _action="/Home" _title="Back to main page" />
+
+        <div class="main">
+            <div class="main-content">
+                <h1>Edit Customer</h1>
+                <form method="POST">
+
+                    <input type="hidden" name="Id" id="id" value={customer.id}>
+
+                    <Input
+                        _type="text"
+                        _name="CompanyName"
+                        _id="companyName"
+                        _class={['']}
+                        _value={customer.companyName}
+                        _required={true}
+                        _placeholder="ex: My Company LTDA"/>
+
+
+                    <Input
+                        _type="text"
+                        _name="TradeName"
+                        _id="tradeName"
+                        _class={['']}
+                        _value={customer.tradeName}
+                        _required={true}
+                        _placeholder="ex: Soft Line"/>
+                    
+                    <Input
+                        _type="text"
+                        _name="Document"
+                        _id="document"
+                        _class={['']}
+                        _value={customer.document}
+                        _required={true}
+                        _placeholder="ex: 0123456789"/>
+
+                    <Input
+                        _type="text"
+                        _name="Location"
+                        _id="location"
+                        _class={['']}
+                        _value={customer.location}
+                        _required={true}
+                        _placeholder="ex: Avenue Empire State, no 128, CityName..."/>
+
+                    <Toggle
+                        _id="active"
+                        _name="Active"
+                        _required={false}
+                        _value={customer.active}
+                    />
+                    
+                    <button>Submit</button>
+                </form>
+                
+                <a href={`/Customer/Delete?id=${customer.id}`}>Delete</a>
+            </div>
+        </div>
+    </body>
+</html>

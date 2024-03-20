@@ -1,0 +1,18 @@
+---
+export const partial = true;
+
+import Input from "@components/cInput.astro";
+
+---
+
+<div class="card-confirm">
+    <Input
+        _type="text"
+        _class={[""]}
+        _name="Confirm"
+        _id="confirm"
+        _required={false}
+        _placeholder='Type "YES" to proceed'
+    />
+    <button>Confirm</button>
+</div>

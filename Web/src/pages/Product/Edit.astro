@@ -1,0 +1,124 @@
+---
+import "@css/global.css";
+import "@css/main.css";
+
+import logo from "@assets/logo.png";
+import Header from "@components/cHeader.astro";
+import IconButton from "@components/cIconButton.astro";
+import Input from "@components/cInput.astro";
+import { ProductModel } from "@models/ProductModel";
+
+const url = "https://localhost:44314";
+
+const param = Astro.url.searchParams.get('id');
+
+let product = new ProductModel();
+
+if(Astro.request.method.toUpperCase() === "POST")
+{
+    const form = await Astro.request.formData();
+
+    product = {
+        id : Number(form.get('Id')),
+        description : form.get('Description').toString(),
+        code : form.get('Code').toString(),
+        price : Number(form.get('Price')),
+        grossWeight : Number(form.get('GrossWeight')),
+        netWeight : Number(form.get('NetWeight'))
+    }
+
+    const response: any  = await fetch(`${url}/Product/Update`,{
+        method : 'PUT',
+        headers : {"Content-type":"application/json; charset=UTF-8"},
+        body: JSON.stringify(product)
+    }).then(x => x.json());
+
+    if(response == 200){
+        return Astro.redirect('/Product/List');
+    }
+}
+else{
+    const response: ProductModel = await fetch(`${url}/Product/Get?id=${param}`).then((x) =>
+        x.json()
+    );
+
+    product = response;
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href={logo.src} type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>SoftLine</title>
+    </head>
+    <body>
+        <Header _action="/Home" _title="Back to main page" />
+
+        <div class="main">
+            <div class="main-content">
+                <h1>Edit Product</h1>
+                <form method="POST">
+
+                    <input type="hidden" name="Id" value={product.id} id="id">
+
+                    <Input
+                        _type="text"
+                        _name="Description"
+                        _id="description"
+                        _class={[""]}
+                        _value={product.description}
+                        _required={true}
+                        _placeholder="ex: My Product"
+                    />
+
+                    <Input
+                        _type="text"
+                        _name="Code"
+                        _id="code"
+                        _class={[""]}
+                        _value={product.code}
+                        _required={true}
+                        _placeholder="ex: My Product"
+                    />
+
+                    <Input
+                        _type="number"
+                        _name="Price"
+                        _id="price"
+                        _class={[""]}
+                        _value={product.price}
+                        _required={true}
+                        _placeholder="ex: 9,99"
+                    />
+
+                    <Input
+                        _type="number"
+                        _name="GrossWeight"
+                        _id="grossweight"
+                        _class={[""]}
+                        _value={product.grossWeight}
+                        _required={true}
+                        _placeholder="ex: 9,999 kg"
+                    />
+
+                    <Input
+                        _type="number"
+                        _name="NetWeight"
+                        _id="netweight"
+                        _class={[""]}
+                        _value={product.netWeight}
+                        _required={true}
+                        _placeholder="ex: 9,999 kg"
+                    />
+
+                    <button>Save</button>
+                </form>
+                
+                <a href={`/Product/Delete?id=${product.id}&endpoint=Product`}>Delete</a>
+            </div>
+        </div>
+    </body>
+</html>

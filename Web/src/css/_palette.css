@@ -1,0 +1,14 @@
+:root{
+
+    --dark : rgb(21,21,21);
+    --light : rgb(249,249,249);
+
+    --white: rgb(251,251,251);
+    --black: rgb(51,51,51);
+
+    --lightergray: rgb(225,225,225);
+    --lightgray: rgb(200,200,200);
+    --gray : rgb(150,150,150);
+    --darkgray: rgb(100,100,100);
+    --darkergray: rgb(75,75,75);
+}

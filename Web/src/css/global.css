@@ -1,0 +1,102 @@
+@import url(_fonts.css);
+@import url(_palette.css);
+
+html,body,div{
+    padding: 0;
+    margin: 0;
+}
+
+*:not(html,body,div){
+    padding: 5px;
+    margin: 5px;
+    font-size: var(--normal);
+    font-weight: lighter;
+    font-family: var(--arial);
+    color: var(--black);
+}
+
+body{
+    background-color: var(--lightergray);
+}
+
+h1{font-size: var(--biggest);}
+h2{font-size: var(--bigger);}
+h3{font-size: var(--big);}
+
+button,input[type="button"],input[type="submit"]{
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 32px;
+    background-color: var(--darkergray);
+    color: var(--white);
+    padding: 5px 10px;
+    min-width: 125px;
+}
+
+hr{
+    padding: 0;
+}
+
+
+input:not(input[type="submit"],input[type="button"]){
+    outline: none;
+    background-color: transparent;
+    transition: ease-in-out 150ms;
+    border: 1px solid transparent;
+    min-width: 100px;
+}
+
+label{
+    min-width: 100px;
+}
+
+input::placeholder{
+    transition: ease-in-out 150ms;
+}
+    input:focus::placeholder{
+        color: transparent;
+    }
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+table,tr{
+    border-collapse: collapse;
+    border: 2px solid var(--lightgray);
+    width: 100%;
+    text-align: center;
+}
+
+
+th,td{
+    text-align: center;
+    text-wrap: wrap;
+
+    padding: 1rem;
+}
+
+th{
+    background-color: var(--darkergray);
+    color: var(--white);
+}
+
+th a{
+    background-color: var(--white);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 2px;
+    border: 2px solid var(--gray);
+}
+
+td{
+    background-color: var(--light);
+}

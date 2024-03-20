@@ -1,0 +1,42 @@
+---
+import '@css/global.css';
+import '@css/main.css';
+import Logo from '@components/cLogo.astro';
+import Header from '@components/cHeader.astro';
+import Menu from '@components/cMenu.astro';
+import logo from '@assets/logo.png';
+
+const _cookie = Astro.cookies.get('status').value;
+
+if(_cookie != 'authorized'){
+	return Astro.redirect('/Login');
+}
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+        <Header _action='/Home' _title='Back to main page'/>
+		
+		<Logo/>
+
+		<div class="main">
+			<Menu
+			_name='Customer' 
+			_actions={['List','New']}/>
+			
+			<Menu
+			_name='Product' 
+			_actions={['List','New']}/>
+			
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,25 @@
+{
+  "name": "web",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev NODE_TLS_REJECT_UNAUTHORIZED=0",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.9",
+    "@iconify-json/mdi": "^1.1.64",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "astro": "^4.5.5",
+    "astro-htmx": "^1.0.5",
+    "astro-icon": "^1.1.0",
+    "htmx.org": "^1.9.11",
+    "typescript": "^5.4.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

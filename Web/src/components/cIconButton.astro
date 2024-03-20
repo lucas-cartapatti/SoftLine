@@ -1,0 +1,29 @@
+---
+import {Icon} from 'astro-icon/components';
+
+export const partial = true;
+
+interface Props{
+    _name : string;
+    _action : string;
+}
+
+const {_name,_action} = Astro.props;
+---
+
+
+<a class="icon-button" href={_action}>
+    <Icon class='icon-content' width={20} height={20} name={_name} />
+</a>
+
+<style scoped>
+    .icon-button{
+        background-color: var(--lightgray);
+        cursor: pointer;
+        margin: 0px 10px;
+        display: inline-flex;
+        color: var(--white) !important;
+        padding: 0;
+        border: 2px solid var(--gray);
+    }
+</style>

@@ -1,0 +1,88 @@
+---
+import '@css/global.css';
+import '@css/main.css';
+
+import logo from '@assets/logo.png';
+import Header from '@components/cHeader.astro';
+import Logo from '@components/cLogo.astro';
+import Input from '@components/cInput.astro';
+
+const url = 'https://localhost:44314'
+
+if(Astro.request.method === "POST"){
+	const form = await Astro.request.formData();
+
+	const dataToPost = {
+		user : form.get('Username'),
+		pass : form.get('Password')
+	}
+
+	const result = 
+		await fetch(`${url}/Authentic/Login?user=${dataToPost.user}&pass=${dataToPost.pass}`,
+		{
+			method: "POST",
+			headers : {"Content-type":"application/json; charset=UTF-8"}
+		}).then(x => x.json());
+
+	if (result == 200){
+		Astro.cookies.set('status','authorized');
+		return Astro.redirect('/Home');
+	}
+}
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+		<Header _action='/' _title='Back to main page'/>
+		<div class="main">
+			<div>
+				<Logo/>
+				<form method="POST">
+					<h1>Login</h1>
+					
+					<hr>
+
+					<Input
+						_type={"text"}
+						_class={[""]}
+						_id={'username'}
+						_name={'Username'}
+						_required={true}
+						_placeholder={'ex: myuser'}
+						_value={''} />
+					
+					<Input
+						_type={"password"}
+						_class={[""]}
+						_id={'password'}
+						_name={'Password'}
+						_required={true}
+						_placeholder={`shhh... it's secret`}
+						_value={''} />
+
+					<button>Login</button>
+
+				</form>
+
+				<a href="./Register">Not a member?</a>
+			</div>
+
+		</div>
+	</body>
+</html>
+
+
+<style scoped>
+	button{
+		float: right;
+	}
+
+</style>

@@ -1,0 +1,78 @@
+---
+export const partial = true;
+
+interface Props{
+    _type  : any;
+    _name  : string;
+    _id    : string;
+    _class : string[];
+    _value? : any;
+    _required : boolean; 
+    _placeholder? : string;
+}
+
+const {_type,_name,_id,_class,_value,_required,_placeholder} = Astro.props;
+
+const isNumber = _type == 'number';
+const isNotNumber = !isNumber;
+---
+
+<div class="input-field">
+    <label class="input-label" for={_id}>{_name}</label>
+    {
+        isNumber &&(
+        <input 
+            type={_type} 
+            required={_required}
+            class={_class.join(' ')} 
+            value={_value}
+            id={_id}
+            name={_name}
+            placeholder={_placeholder}
+            step="0.001"
+            />
+        )
+    }
+    {
+        isNotNumber &&(
+        <input 
+            type={_type} 
+            required={_required}
+            class={_class.join(' ')} 
+            value={_value}
+            id={_id}
+            name={_name}
+            placeholder={_placeholder}
+            />   
+        )
+    }
+
+</div>
+
+<style scoped>
+
+    .input-field{
+        border: 2px solid var(--gray);
+        border-radius: 32px;
+        margin: 15px;
+        width: -webkit-fill-available;
+    }
+
+    .input-label{
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .field-100{
+        width: 100px;
+    }
+
+    .field-150{
+        width: 150px;
+    }
+
+    .field-200{
+        width: 200px;
+    }
+
+</style>

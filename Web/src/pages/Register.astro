@@ -1,0 +1,116 @@
+---
+import '@css/global.css';
+import '@css/main.css';
+
+import logo from '@assets/logo.png';
+import Header from '@components/cHeader.astro';
+import Logo from '@components/cLogo.astro';
+import Input from '@components/cInput.astro';
+
+import Toggle from '@components/cToggle.astro';
+
+const url = 'https://localhost:44314'
+
+interface AuthenticModel {
+    id : number,
+    username : string,
+    password : string,
+    email : string,
+    active : boolean,
+    dateCreation : Date
+    
+}
+
+if(Astro.request.method === "POST"){
+	const form = await Astro.request.formData();
+
+	let dataToPost : AuthenticModel = {
+        username : '',
+        id : 0,
+        email : '',
+        active : true,
+        dateCreation : new Date(),
+        password : ''
+    };
+
+    dataToPost.username = form.get('Username') as string;
+    dataToPost.email = form.get('Email') as string;
+    dataToPost.password = form.get('Password') as string;
+
+	const result = 
+		await fetch(`${url}/Authentic/NewUser`,
+		{
+			method: "POST",
+			headers : {"Content-type":"application/json; charset=UTF-8"},
+            body: JSON.stringify(dataToPost)
+		}).then(x => x.json());
+
+		console.log(result);
+}
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+		<Header _action='/' _title='Back to main page'/>
+		<div class="main">
+			<div>
+				<Logo/>
+				<form method="POST">
+					<h1>New Account</h1>
+					
+					<hr>
+
+					<Input
+						_type={"text"}
+						_class={[""]}
+						_id={'username'}
+						_name={'Username'}
+						_required={true}
+						_placeholder={'ex: myuser'}
+						_value={''} />
+                    
+                    <Input
+						_type={"text"}
+						_class={[""]}
+						_id={'email'}
+						_name={'Email'}
+						_required={true}
+						_placeholder={'ex: myemail@domain.com'}
+						_value={''} />
+                    
+					<Input
+						_type={"password"}
+						_class={[""]}
+						_id={'password'}
+						_name={'Password'}
+						_required={true}
+						_placeholder={`shhh... it's secret`}
+						_value={''} />
+
+					<button>Register</button>
+
+				</form>
+
+                <a href="./Login">Back</a>
+
+			</div>
+
+		</div>
+	</body>
+</html>
+
+
+<style scoped>
+	button{
+		float: right;
+	}
+
+</style>

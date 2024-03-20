@@ -1,0 +1,31 @@
+---
+export const partial = true;
+
+import '@css/main.css';
+import logo from '@assets/logo.png';
+import Logo from '@components/cLogo.astro';
+
+
+---
+
+<div class="main">
+    <div class="main-content">
+        <h1>Welcome to...</h1>
+        <img src={logo.src} alt="">
+        <hr>
+        <a href="../Login" hidden ></a>
+        <button>Get Started</button>
+    </div>
+</div>
+
+
+<script>
+
+    const redirect = document.querySelector('button');
+
+    redirect.addEventListener('click', ()=>{
+        const action = redirect.previousElementSibling as HTMLElement;
+
+        action.click();
+    })
+</script>

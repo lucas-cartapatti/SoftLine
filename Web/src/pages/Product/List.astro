@@ -1,0 +1,60 @@
+---
+import '@css/global.css';
+import '@css/main.css';
+
+import logo from '@assets/logo.png';
+import Header from '@components/cHeader.astro';
+import IconButton from '@components/cIconButton.astro';
+
+import { ProductModel } from '@models/ProductModel';
+
+const url = 'https://localhost:44314';
+
+const response: ProductModel[] = await fetch(`${url}/Product/List`)
+	.then(x => x.json());
+
+console.log(Astro.url.searchParams.get('teste'));
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+		<Header _action='/Home' _title='Back to main page'/>
+
+		<div class="main">
+			<div class="main-content">
+				<h1>List of Products</h1>
+				<table>
+					<tr>
+						<th><a href={`/Product/New`}>New</a></th>
+						{
+							Object.keys(new ProductModel).slice(1).map(columnName => (
+								<th>{columnName}</th>
+							))
+						}
+					</tr>
+					{
+						response.map(r => (
+							<tr id={r.id.toString()} >
+								<td>
+									<IconButton _name='mdi:edit' _action={`/Product/Edit?id=${r.id}`} />
+								</td>
+								<td>{r.description}</td>
+								<td>{r.code}</td>
+								<td>{r.price}</td>
+								<td>{r.grossWeight}</td>
+								<td>{r.netWeight}</td>
+							</tr>
+						))
+					}
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

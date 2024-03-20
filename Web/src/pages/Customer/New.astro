@@ -1,0 +1,98 @@
+---
+import '@css/global.css';
+import '@css/main.css';
+import logo from '@assets/logo.png';
+import Header from '@components/cHeader.astro';
+import Input from '@components/cInput.astro';
+
+import type { CustomerModel } from '@models/CustomerModel';
+
+const url = 'https://localhost:44314';
+
+if(Astro.request.method === "POST"){
+    const form = await Astro.request.formData();
+
+    const customer : CustomerModel = {
+        id : 0,
+        companyName : form.get('CompanyName') as string,
+        tradeName : form.get('TradeName') as string,
+        document : form.get('Document') as string,
+        location : form.get('Location') as string,
+        active : true
+    }
+
+    const result = await fetch(`${url}/Customer/NewCustomer`,
+    {
+        method: "POST",
+        headers : {"Content-type":"application/json; charset=UTF-8"},
+        body: JSON.stringify(customer)
+    }).then(x => x.json());
+
+    if(result == 200)
+        return Astro.redirect('/Customer/List');
+}
+
+---
+
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+		<Header _action='/Home' _title='Back to main page'/>
+
+        <div class="main">
+            <div class="main-content">
+                
+                <h1>New Customer</h1>
+                
+                <form method="POST">
+                    <Input
+                        _type="text"
+                        _name="CompanyName"
+                        _id="companyName"
+                        _class={['']}
+                        _value=""
+                        _required={true}
+                        _placeholder="ex: My Company LTDA"/>
+
+
+                    <Input
+                        _type="text"
+                        _name="TradeName"
+                        _id="tradeName"
+                        _class={['']}
+                        _value=""
+                        _required={true}
+                        _placeholder="ex: Soft Line"/>
+                    
+                    <Input
+                        _type="text"
+                        _name="Document"
+                        _id="document"
+                        _class={['']}
+                        _value=""
+                        _required={true}
+                        _placeholder="ex: 0123456789"/>
+
+                    <Input
+                        _type="text"
+                        _name="Location"
+                        _id="location"
+                        _class={['']}
+                        _value=""
+                        _required={true}
+                        _placeholder="ex: Avenue Empire State, no 128, CityName..."/>
+
+                    <button>Submit</button>
+                </form>
+                <a href={`/Customer/List`}>List</a>
+            </div>
+        </div>
+	</body>
+</html>

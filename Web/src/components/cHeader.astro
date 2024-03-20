@@ -1,0 +1,44 @@
+---
+export const partial = true;
+import logo from '@assets/logo.png';
+
+interface Props{
+    _action : string;
+    _title : string;
+}
+
+const {_action,_title} = Astro.props;
+---
+
+<div class="header-main">
+    <div class="header-logo">
+        <a href={`${_action}`} title={_title} >
+            <img src={logo.src} height="75" width="75">
+        </a>
+    </div>
+</div>
+
+
+<style>
+    .header-main{
+        background: linear-gradient(15deg,var(--black),var(--gray));
+        display: flex;
+        position: static;
+        height: auto;
+        width: 100%;
+        margin: 0;
+        top:0;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 2px solid var(--darkgray);
+    }
+
+    .header-logo a{
+        padding: 0;
+        margin: 0;
+    }
+
+    .header-logo img{
+        border-radius: 60%;
+    }
+</style>

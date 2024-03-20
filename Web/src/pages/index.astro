@@ -1,0 +1,18 @@
+---
+import '@css/global.css';
+import Main from '@partials/Main.astro';
+import logo from '@assets/logo.png';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+		<Main/>
+	</body>
+</html>

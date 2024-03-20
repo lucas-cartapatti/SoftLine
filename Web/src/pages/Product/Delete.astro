@@ -1,0 +1,49 @@
+---
+import '@css/global.css';
+import '@css/main.css';
+
+import logo from '@assets/logo.png';
+import Card from '@partials/CardConfirm.astro';
+import Header from '@components/cHeader.astro';
+
+const url = "https://localhost:44314";
+
+const param = Astro.url.searchParams.get("id");
+
+if (Astro.request.method.toUpperCase() === "POST") {
+    const form = await Astro.request.formData();
+
+    const value = form.get("Confirm").toString();
+
+    if (value.toLowerCase() == "yes") {
+        const result = await fetch(`${url}/Product/Delete?id=${param}`, {
+            method: "DELETE",
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+        }).then((r) => r.json());
+
+        return Astro.redirect(`/Product/List`);
+    }
+}
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href={logo.src} type="image/x-icon">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SoftLine</title>
+	</head>
+	<body>
+		<Header _action='/Home' _title='Back to main page'/>
+
+		<div class="main">
+			<div class="main-content">
+				<form method="POST">
+					<Card/>
+				</form>
+				<a href={`/Product/List`}>Back</a>
+			</div>
+		</div>
+	</body>
+</html>
